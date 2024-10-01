@@ -37,14 +37,14 @@ The project commands have been consolidated into a single script file named `pen
 - Performing database enumeration and extraction
 
 ## Screenshots
-1. **Initial Metasploit Setup**:
-   *Description*: This screenshot shows the initial setup of Metasploit, with the selected EternalBlue module.
-   ![Initial Metasploit Setup](Exploit Success.png)
+1. **Initial Metasploit Setup**:  
+   *Description*: This screenshot shows the initial setup of Metasploit, with the selected EternalBlue module.  
+   ![Metasploit Setup](./Metasploit%20Setup.png)
 
-2. **Successful Exploit Output**:
-   *Description*: Demonstrates a successful execution of the MS17-010 exploit.
-    ![Successful Exploit Output](Metasploit Setup.png)
+2. **Successful Exploit Output**:  
+   *Description*: Demonstrates a successful execution of the MS17-010 exploit.  
+   ![Exploit Success](./Exploit%20Success.png)
 
-3. **MySQL Database Enumeration**:
-   *Description*: Shows database enumeration using brute-forced credentials.
-   ![MySQL Database Enumeration](MySQL Enumeration.png)
+3. **MySQL Database Enumeration**:  
+   *Description*: Shows database enumeration using brute-forced credentials.  
+   ![MySQL Enumeration](./MySQL%20Enumeration.png)
