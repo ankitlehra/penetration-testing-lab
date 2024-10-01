@@ -39,9 +39,12 @@ The project commands have been consolidated into a single script file named `pen
 ## Screenshots
 1. **Initial Metasploit Setup**:
    *Description*: This screenshot shows the initial setup of Metasploit, with the selected EternalBlue module.
+   ![Initial Metasploit Setup](Exploit Success.png)
 
 2. **Successful Exploit Output**:
    *Description*: Demonstrates a successful execution of the MS17-010 exploit.
+    ![Successful Exploit Output](Metasploit Setup.png)
 
 3. **MySQL Database Enumeration**:
    *Description*: Shows database enumeration using brute-forced credentials.
+   ![MySQL Database Enumeration](MySQL Enumeration.png)
